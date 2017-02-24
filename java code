@@ -1,0 +1,63 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.EventObject;
+
+/**
+ * Created by cjbraga on 24/02/2017.
+ */
+public class TST extends JFrame{
+    // Declarar e criar os componentes
+    JLabel j1ValorConverter = new JLabel("Valor a converter");
+    JTextField jtfValor = new JTextField(5);
+    JLabel j1TipoConversao = new JLabel("Tipo de Conversão");
+    String[] tipoConversao = {"gramas - onças", "onças - gramas"};
+    JComboBox jcbTipoConversao = new JComboBox(tipoConversao);
+    JLabel j1Resultado = new JLabel("Resultado");
+    JLabel j1Resultado2 = new JLabel();
+
+    // Construtor
+
+    private TST(){
+        setTitle("Conversor de Peso");
+        setSize(225, 125);
+        setLocation(50, 50);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(3, 2, 1, 5));
+        setVisible(true);
+
+        add(j1ValorConverter);
+        add(jtfValor);
+        add(j1TipoConversao);
+        add(jcbTipoConversao);
+        add(j1Resultado);
+        add(j1Resultado2);
+
+        jcbTipoConversao.addItemListener(new EventoJCBox());
+    }
+
+    public static void main(String[] args){
+        new TST();
+    }
+
+    /*Classe interna que implementa os métodos da interface ItemLister*/
+    private class EventoJCBox implements ItemListener{
+        @Override
+        public void itemStateChanged(ItemEvent ev) {
+            Double resultado;
+            NumberFormat nf = new DecimalFormat("#####0.0000");
+
+            if (jcbTipoConversao.getSelectedItem().equals("gramas - onças")){
+                resultado = Double.parseDouble(jtfValor.getText())*0.0353;
+                j1Resultado2.setText(nf.format(resultado));
+            }else {
+                resultado = Double.parseDouble(jtfValor.getText()) / 0.0353;
+                j1Resultado2.setText(nf.format(resultado));
+            }
+
+        }
+    }
+}
